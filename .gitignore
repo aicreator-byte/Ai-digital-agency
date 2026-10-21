@@ -1,0 +1,10 @@
+# Data bisnis / prospek tidak boleh masuk repo.
+storage/
+*.db
+*.db-*
+.env
+__pycache__/
+*.pyc
+out/
+.venv/
+node_modules/

@@ -1,0 +1,6 @@
+# Target prospek agency (hanya kategori + lokasi, tanpa data bisnis).
+# Diambil dari data agency yang sudah ada: klinik di Bandung.
+# Tambah baris baru untuk menambah target scrape pagi.
+targets:
+  - kategori: klinik
+    lokasi: Bandung

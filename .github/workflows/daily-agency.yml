@@ -1,0 +1,87 @@
+name: Agency Harian
+
+on:
+  schedule:
+    # 00:00 UTC = 07:00 WIB — prospek pagi
+    - cron: "0 0 * * *"
+    # 10:00 UTC = 17:00 WIB — draf follow-up sore
+    - cron: "0 10 * * *"
+  workflow_dispatch:
+    inputs:
+      business_name:
+        description: "Nama bisnis untuk website"
+        required: true
+        type: string
+      package:
+        description: "Paket website"
+        required: true
+        default: "W1"
+        type: choice
+        options:
+          - W1
+          - W2
+          - W3
+
+jobs:
+  prospek-pagi:
+    if: github.event_name == 'schedule' && github.event.schedule == '0 0 * * *' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    env:
+      SCRAPER_BACKEND: osm
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements-actions.txt
+      - run: mkdir -p storage out
+      - run: python3 scripts/daily_prospects.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: leads-${{ github.run_id }}
+          path: out/
+          if-no-files-found: warn
+
+  followup-sore:
+    if: github.event_name == 'schedule' && github.event.schedule == '0 10 * * *'
+    runs-on: ubuntu-latest
+    env:
+      SCRAPER_BACKEND: osm
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements-actions.txt
+      - run: mkdir -p storage out
+      - run: python3 scripts/followup_drafts.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: followup-drafts-${{ github.run_id }}
+          path: out/
+          if-no-files-found: warn
+
+  bangun-website:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements-actions.txt
+      - run: >-
+          python3 scripts/build_website.py
+          --business "${{ inputs.business_name }}"
+          --package "${{ inputs.package }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: website-${{ inputs.business_name }}-${{ inputs.package }}
+          path: out/
+          if-no-files-found: error
+      # Deploy hanya bila secret tersedia (tidak gagal bila tidak ada).
+      - name: Deploy ke Cloudflare Pages (opsional)
+        if: secrets.CLOUDFLARE_API_TOKEN != ''
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: 'echo "Deploy Pages: sambungkan token + project Pages di sini (langkah manual berikutnya)."'
