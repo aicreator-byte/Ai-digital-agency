@@ -24,6 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import yaml  # noqa: E402
 
 from agents.scraper_agent import find_leads  # noqa: E402
+from core.database import get_business  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "out"
@@ -53,6 +54,9 @@ def main() -> int:
         print(f"[prospek] dapat {len(leads)} lead", flush=True)
         for lead in leads:
             d = lead.model_dump(mode="json")
+            biz = get_business(lead.business_id)
+            if biz:
+                d["business"] = biz.model_dump(mode="json")
             d["target_kategori"] = kategori
             d["target_lokasi"] = lokasi
             all_leads.append(d)
