@@ -1,0 +1,15 @@
+{
+  "name": "wa-bridge",
+  "version": "1.0.0",
+  "private": true,
+  "main": "bridge.js",
+  "scripts": {
+    "start": "node bridge.js"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.9",
+    "https-proxy-agent": "^9.1.0",
+    "pino": "^9.0.0",
+    "qrcode-terminal": "^0.12.0"
+  }
+}

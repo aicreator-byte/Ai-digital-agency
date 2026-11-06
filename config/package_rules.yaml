@@ -1,0 +1,31 @@
+# Aturan otomatis penentuan paket — dipakai website_agent waktu bikin
+# Project baru, TANPA perlu klien/kamu pilih manual.
+#
+# Hanya tier W (website saja) yang di-auto-assign. Tier C (gabungan +
+# chatbot) HANYA via upsell manual — tidak pernah keluar dari assign_package.
+#
+# Urutan pengecekan: kategori_paket dulu (kalau kategori bisnisnya kebetulan
+# ada di mapping ini, langsung dipakai). Kalau kategori TIDAK ada di
+# mapping, fallback ke score_thresholds (skor lead dari scraper_agent,
+# makin tinggi skor prospek makin diarahkan ke paket lebih besar).
+
+kategori_paket:
+  klinik: w3
+  rumah_sakit: w3
+  hotel: w3
+  restoran: w2
+  resto: w2
+  toko: w2
+  laundry: w1
+  bengkel: w1
+  warung: w1
+
+# Dipakai kalau kategori bisnis TIDAK ada di kategori_paket di atas.
+# Dicek dari atas ke bawah, threshold pertama yang skornya >= min_score dipakai.
+score_thresholds:
+  - min_score: 85
+    paket: w3
+  - min_score: 60
+    paket: w2
+  - min_score: 0
+    paket: w1

@@ -1,0 +1,97 @@
+# Matriks paket 2x3 (2026-10-15): Website saja (W1/W2/W3) + Gabungan (C1/C2/C3).
+# Tier C = upsell manual, TIDAK di-auto-assign (lihat package_rules.yaml).
+#
+# "blocks" per halaman merujuk ke tipe section yang didukung page_template.html:
+# hero, about, services, gallery, faq, contact, blog_list
+# Halaman di luar 6 tipe template dicatat di `catatan` (dibangun custom).
+
+w1:
+  label: "W1 — Website Saja"
+  segment: umkm
+  pages: ["index"]
+  blocks:
+    index: [hero, about, services, faq, contact]
+  max_revisions: 2
+  harga_estimasi: 2500000
+  chatbot: false
+
+w2:
+  label: "W2 — Website Saja"
+  segment: menengah
+  pages: ["index", "layanan", "galeri", "tentang", "kontak"]
+  blocks:
+    index: [hero, about]
+    layanan: [services]
+    galeri: [gallery]
+    tentang: [about]
+    kontak: [contact, faq]
+  max_revisions: 3
+  harga_estimasi: 4900000
+  chatbot: false
+
+w3:
+  label: "W3 — Website Saja"
+  segment: korporat
+  pages: ["index", "layanan", "tentang", "galeri", "blog", "kontak"]
+  blocks:
+    index: [hero]
+    layanan: [services]
+    tentang: [about]
+    galeri: [gallery]
+    blog: [blog_list]
+    kontak: [contact, faq]
+  max_revisions: 5
+  harga_estimasi: 7500000
+  chatbot: false
+  catatan: "8 halaman: 6 dari template + 2 halaman custom"
+
+c1:
+  label: "C1 — Website + Chatbot"
+  segment: menengah
+  pages: ["index", "layanan", "galeri", "tentang", "kontak"]
+  blocks:
+    index: [hero, about]
+    layanan: [services]
+    galeri: [gallery]
+    tentang: [about]
+    kontak: [contact, faq]
+  max_revisions: 3
+  harga_estimasi: 8900000
+  retainer_bulanan: 299000
+  chatbot: true
+  catatan: "chatbot dasar (cabang, harga, FAQ, booking, handoff admin)"
+
+c2:
+  label: "C2 — Website + Chatbot"
+  segment: menengah_atas
+  pages: ["index", "layanan", "tentang", "galeri", "blog", "kontak"]
+  blocks:
+    index: [hero]
+    layanan: [services]
+    tentang: [about]
+    galeri: [gallery]
+    blog: [blog_list]
+    kontak: [contact, faq]
+  max_revisions: 5
+  harga_estimasi: 12000000
+  retainer_bulanan: 499000
+  chatbot: true
+  unggulan: true
+  catatan: "8 halaman (6 template + 2 custom); chatbot lengkap + laporan bulanan"
+
+c3:
+  label: "C3 — Website + Chatbot"
+  segment: korporat
+  pages: ["index", "layanan", "tentang", "galeri", "blog", "kontak"]
+  blocks:
+    index: [hero]
+    layanan: [services]
+    tentang: [about]
+    galeri: [gallery]
+    blog: [blog_list]
+    kontak: [contact, faq]
+  max_revisions: 5
+  harga_estimasi: 18000000
+  retainer_bulanan: 899000
+  chatbot: true
+  catatan: "10 halaman (6 template + 4 custom); chatbot multi-cabang + landing promo + laporan lengkap + prioritas"

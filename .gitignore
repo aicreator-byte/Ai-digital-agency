@@ -9,3 +9,6 @@ out/
 .venv/
 node_modules/
 .wrangler/
+whatsapp/auth/
+whatsapp/*.txt
+whatsapp/*.log
